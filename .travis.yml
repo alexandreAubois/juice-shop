@@ -25,4 +25,8 @@ before_deploy:
   - rm -rf frontend/node_modules
   - npm install --production
   - npm run package
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker build -t $DOCKER_IMAGE_NAME .
+  - docker push $DOCKER_IMAGE_NAME
 
