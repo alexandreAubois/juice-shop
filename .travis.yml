@@ -1,4 +1,5 @@
 language: node_js
+dist: trusty
 node_js:
   - 10
 
@@ -10,6 +11,12 @@ branches:
     - l10n_develop
 install: if [ -z "$TRAVIS_TAG" ]; then npm install; fi
 script: if [ -z "$TRAVIS_TAG" ]; then NODE_ENV=test npm test; fi
+  - sonar-scanner
+addons:
+  sonarcloud:
+    organization: alexandreaubois-github
+    token:
+      secure: $SONAR_TOKEN
 before_deploy:
   - rm -rf node_modules
   - rm -rf frontend/node_modules
@@ -23,5 +30,6 @@ after_success:
   - docker push $IMAGE_NAME
   - aws cloudformation deploy --template-file ./ecs-task.yaml --stack-name ecs-deployment --region eu-west-1 --parameter-override ImageName=$IMAGE_NAME
   - aws cloudformation update-stack --template-body file://./ecs-task.yaml --stack-name ecs-deployment --region eu-west-1 --parameters "ParameterKey=ImageName,ParameterValue=$IMAGE_NAME"
+
 
 
