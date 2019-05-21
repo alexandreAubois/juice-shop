@@ -9,7 +9,6 @@ branches:
   except:
     - gh-pages
     - l10n_develop
-install: if [ -z "$TRAVIS_TAG" ]; then npm install; fi
 script:
   - npm test
   - sonar-scanner -D"sonar.projectKey=alexandreAubois_juice-shop" -D"sonar.organization=alexandreaubois-github" -D"sonar.sources=." -D"sonar.host.url=https://sonarcloud.io" -D"sonar.login=8187e51252f7668f76ccd9e6ce024eddd4fc1893" -Dsonar.javascript.lcov.reportPaths=./build/reports/coverage/server-tests/lcov.info
