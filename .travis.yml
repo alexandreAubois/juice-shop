@@ -1,23 +1,10 @@
 language: node_js
 node_js:
   - 10
-  - 8
-  - 11
-stages:
-#  - lint
-#  - test
-#  - integration
-#  - e2e
-#  - deploy
 branches:
   except:
     - gh-pages
     - l10n_develop
-addons:
-  chrome: stable
-  code_climate:
-    repo_token:
-      secure: NC3ew4c92DO4SAdbJvaZkaRnEZaZcAr9NcxOeraqAKHRXY3COnerWGR8+kIE9KiadcRdatmu0sSjWldDcAZfmMwOraMI9CDkqdPSjtjciCVEFdGi+OPOvMY/gOJU6XeM7lsO5MvYD7mqChl2gR6s7IO/klPahf53c97PPDo3C90=
 install: if [ -z "$TRAVIS_TAG" ]; then npm install; fi
 script: if [ -z "$TRAVIS_TAG" ]; then NODE_ENV=test npm test; fi
 before_deploy:
@@ -28,6 +15,6 @@ before_deploy:
 after_success:
   - pip install --user awscli
   - eval $(aws ecr get-login --region eu-west-1 --no-include-email)
-  - docker build -t $DOCKER_IMAGE_NAME .
-  - docker push $DOCKER_IMAGE_NAME
+  - docker build -t juice-image .
+  - docker push juice-image
 
