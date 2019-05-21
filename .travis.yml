@@ -18,4 +18,7 @@ after_success:
   - docker build -t juice-shop .
   - docker tag juice-shop:latest 530658460091.dkr.ecr.eu-west-1.amazonaws.com/juice-shop:latest
   - docker push 530658460091.dkr.ecr.eu-west-1.amazonaws.com/juice-shop:latest
+  - aws cloudformation deploy --template-file ./ecs-task.yaml --stack-name ecs-task --region eu-west-1 --parameter-override ImageName=530658460091.dkr.ecr.eu-west-1.amazonaws.com/juice-shop:latest
+  - aws cloudformation update-stack --template-body file://./ecs-task.yaml --stack-name ecs-task --region eu-west-1 --parameters "ParameterKey=ImageName,ParameterValue=530658460091.dkr.ecr.eu-west-1.amazonaws.com/juice-shop:latest"
+
 
