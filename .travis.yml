@@ -21,7 +21,8 @@ addons:
       secure: $SONAR_TOKEN
   artifacts:
     s3_region: "us-west-1"
-    working_dir: out
+    paths:
+      - ./out
 before_deploy:
   - rm -rf node_modules
   - rm -rf frontend/node_modules
